@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.cross_validation import train_test_split
+import sklearn.metrics
 from singleton import Singleton
 
 class FrameworkManager(Singleton):
@@ -64,3 +65,10 @@ def model(name):
 def train(model_name, params):
     model = FrameworkManager.models[model_name]
     FrameworkManager.models[model_name]['model'] = model['train'](model, params, FrameworkManager.train, FrameworkManager.validation)
+
+def evaluate(model_name):
+    # Calculate Log Loss
+    test_data = FrameworkManager.test
+    model = FrameworkManager.models[model_name]
+    predictions = model['predict'](model['model'], test_data['X'])
+    return sklearn.metrics.log_loss(list(test_data['y']), predictions)
