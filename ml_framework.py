@@ -21,31 +21,30 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
 
         FrameworkManager.all_X = X
 
+        FrameworkManager.features = pd.DataFrame(index=X.index.copy())
+
         # Divide up the dataset
         X_train_valid, X_test, y_train_valid, y_test = train_test_split(X, y, test_size=test_amnt, random_state=137)
 
-        X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=test_amnt, random_state=137)
+        X_train, X_valid, y_train, y_valid = train_test_split(X_train_valid, y_train_valid, test_size=valid_amnt/(1-test_amnt), random_state=137)
 
         FrameworkManager.train['X'] = X_train
-        FrameworkManager.train['X'] = y_train
+        FrameworkManager.train['y'] = y_train
 
         FrameworkManager.validation['X'] = X_valid
-        FrameworkManager.validation['X'] = y_valid
+        FrameworkManager.validation['y'] = y_valid
 
         FrameworkManager.test['X'] = X_test
-        FrameworkManager.test['X'] = y_test
+        FrameworkManager.test['y'] = y_test
 
     return dataset_decorator
 
 def feature(name):
     def feature_decorator(func):
         # The function is explicitly called with the keyword argument for end-user consistancy (note: is this a good thing? yes? no?)
-        feature_output = func(X=X)
+        feature_output = pd.DataFrame(func(X=FrameworkManager.all_X), index=FrameworkManager.features.index)
 
-        # A (hopefully) informative error message
-        assert isinstance(feature_output, np.array), "The output of the feature `{}` should be of type numpy.array, not {}. If it is a pandas DataFrame that has only one column (as it should), it can be converted into a numpy array via `my_dataframe.values`".format(name, type(feature_output))
-
-        FrameworkManager.features[name] = feature_output
+        FrameworkManager.features = FrameworkManager.features.join(feature_output)
 
     return feature_decorator
 
@@ -54,8 +53,10 @@ def model(name):
         define_func, train_func, predict_func = func()
 
         FrameworkManager.models[name] = {}
-        FrameworkManager.models[name]['define_func'] = define_func
-        FrameworkManager.models[name]['train_func'] = train_func
-        FrameworkManager.models[name]['predict_func'] = predict_func
+        FrameworkManager.models[name]['define'] = define_func
+        FrameworkManager.models[name]['train'] = train_func
+        FrameworkManager.models[name]['predict'] = predict_func
+
+        FrameworkManager.models['model'] = define_func()
 
     return model_decorator
