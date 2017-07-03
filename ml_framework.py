@@ -9,6 +9,7 @@ class FrameworkManager(Singleton):
     validation = {'X': None, 'y': None}
     test = {'X': None, 'y': None}
     features = pd.Dataset()
+    models = {}
 
 # Decorators
 def dataset(train_valid_test=(0.6, 0.2, 0.2)):
@@ -47,3 +48,14 @@ def feature(name):
         FrameworkManager.features[name] = feature_output
 
     return feature_decorator
+
+def model(name):
+    def model_decorator(func):
+        define_func, train_func, predict_func = func()
+
+        FrameworkManager.models[name] = {}
+        FrameworkManager.models[name]['define_func'] = define_func
+        FrameworkManager.models[name]['train_func'] = train_func
+        FrameworkManager.models[name]['predict_func'] = predict_func
+
+    return model_decorator
