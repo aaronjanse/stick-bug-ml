@@ -43,7 +43,7 @@ def feature(name):
         feature_output = func(X=X)
 
         # A (hopefully) informative error message
-        assert isinstance(feature_output, np.array), "The output of the feature `{}` should be of type numpy.array, not {}. If it is a pandas DataFrame that has only one column (as it should), it can be converted into a numpy array via `my_dataframe.values`".format(name, type(feature_output)
+        assert isinstance(feature_output, np.array), "The output of the feature `{}` should be of type numpy.array, not {}. If it is a pandas DataFrame that has only one column (as it should), it can be converted into a numpy array via `my_dataframe.values`".format(name, type(feature_output))
 
         FrameworkManager.features[name] = feature_output
 
