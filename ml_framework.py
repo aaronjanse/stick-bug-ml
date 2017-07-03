@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.cross_validation import train_test_split
 from singleton import Singleton
@@ -34,3 +35,15 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
         FrameworkManager.test['X'] = y_test
 
     return dataset_decorator
+
+def feature(name):
+    def feature_decorator(func):
+        # The function is explicitly called with the keyword argument for end-user consistancy (note: is this a good thing? yes? no?)
+        feature_output = func(X=X)
+
+        # A (hopefully) informative error message
+        assert isinstance(feature_output, np.array), "The output of the feature `{}` should be of type numpy.array, not {}. If it is a pandas DataFrame that has only one column (as it should), it can be converted into a numpy array via `my_dataframe.values`".format(name, type(feature_output)
+
+        FrameworkManager.features[name] = feature_output
+
+    return feature_decorator
