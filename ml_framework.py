@@ -10,11 +10,16 @@ class FrameworkManager(Singleton):
     validation = {'X': None, 'y': None}
     test = {'X': None, 'y': None}
     features = None
+    train_valid_test_splits = None
     models = {}
 
 # Decorators
 def dataset(train_valid_test=(0.6, 0.2, 0.2)):
     train_amnt, valid_amnt, test_amnt = train_valid_test
+
+    assert train_amnt + valid_amnt + test_amnt == 1, "the train_valid_test splits should all add up to 1.0"
+
+    FrameworkManager.train_valid_test_splits = train_valid_test
 
     def dataset_decorator(func):
         # Get the dataset from the user-provided function
@@ -63,12 +68,35 @@ def model(name):
     return model_decorator
 
 def train(model_name, params):
+    # Add in features
+    _, valid_amnt, test_amnt = FrameworkManager.train_valid_test_splits
+
+    f_train_valid, _ = train_test_split(FrameworkManager.features, test_size=test_amnt, random_state=137)
+
+    f_train, f_valid = train_test_split(f_train_valid, test_size=valid_amnt/(1-test_amnt), random_state=137)
+
+    train_X = pd.concat([FrameworkManager.train['X'], f_train], axis=1)
+    validation_X = pd.concat([FrameworkManager.validation['X'], f_valid], axis=1)
+
+    train_data = {'X': train_X, 'y': FrameworkManager.train['y']}
+    validation_data = {'X': validation_X, 'y': FrameworkManager.validation['y']}
+
+    # Train model
     model = FrameworkManager.models[model_name]
-    FrameworkManager.models[model_name]['model'] = model['train'](model, params, FrameworkManager.train, FrameworkManager.validation)
+
+    FrameworkManager.models[model_name]['model'] = model['train'](model, params, train_data, validation_data)
 
 def evaluate(model_name):
-    # Calculate Log Loss
-    test_data = FrameworkManager.test
+    _, _, test_amnt = FrameworkManager.train_valid_test_splits
+
+    # Add in features
+    _, f_test = train_test_split(FrameworkManager.features, test_size=test_amnt, random_state=137)
+    test_X = pd.concat([FrameworkManager.test['X'], f_test], axis=1)
+    test_data = {'X': test_X, 'y': FrameworkManager.test['y']}
+
+    # Make prediction
     model = FrameworkManager.models[model_name]
     predictions = model['predict'](model['model'], test_data['X'])
+
+    # Calculate log_loss score
     return sklearn.metrics.log_loss(list(test_data['y']), predictions)
