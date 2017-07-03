@@ -60,3 +60,7 @@ def model(name):
         FrameworkManager.models['model'] = define_func()
 
     return model_decorator
+
+def train(model_name, params):
+    model = FrameworkManager.models[model_name]
+    FrameworkManager.models[model_name]['model'] = model['train'](model, params, FrameworkManager.train, FrameworkManager.validation)
