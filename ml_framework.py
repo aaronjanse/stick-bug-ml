@@ -65,7 +65,7 @@ def model(name):
         FrameworkManager.models[name]['train'] = train_func
         FrameworkManager.models[name]['predict'] = predict_func
 
-        FrameworkManager.models['model'] = define_func()
+        FrameworkManager.models[name]['model'] = define_func()
 
     return model_decorator
 
@@ -86,7 +86,7 @@ def train(model_name, params):
     # Train model
     model = FrameworkManager.models[model_name]
 
-    FrameworkManager.models[model_name]['model'] = model['train'](model, params, train_data, validation_data)
+    FrameworkManager.models[model_name]['model'] = model['train'](model['model'], params, train_data, validation_data)
 
 def evaluate(model_name):
     _, _, test_amnt = FrameworkManager.train_valid_test_splits
