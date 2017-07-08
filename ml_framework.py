@@ -98,7 +98,7 @@ def evaluate(model_name):
     test_X = pd.concat([FrameworkManager.test['X'], f_test], axis=1)
     test_data = {'X': test_X, 'y': FrameworkManager.test['y']}
 
-    # Make prediction
+    # Make predictions
     model = FrameworkManager.models[model_name]
     predictions = model['predict'](model['model'], test_data['X'])
 
