@@ -6,6 +6,7 @@ from singleton import Singleton
 
 class FrameworkManager(Singleton):
     all_X = None
+    all_y = None
     train = {'X': None, 'y': None}
     validation = {'X': None, 'y': None}
     test = {'X': None, 'y': None}
@@ -26,6 +27,7 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
         X, y = func()
 
         FrameworkManager.all_X = X
+        FrameworkManager.all_y = y
 
         FrameworkManager.features = pd.DataFrame(index=X.index.copy())
 
