@@ -1,5 +1,5 @@
 import ml_framework
-from ml_framework import dataset, feature, model
+from ml_framework.decorators import dataset, preprocess, feature, model
 
 # Load the dataset. Tell it how to divide up the data into train/valid/split
 @dataset(train_valid_test=(0.6, 0.2, 0.2))
