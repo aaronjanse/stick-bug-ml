@@ -67,7 +67,10 @@ def model(name):
         FrameworkManager.models[name]['train'] = train_func
         FrameworkManager.models[name]['predict'] = predict_func
 
-        FrameworkManager.models[name]['model'] = define_func()
+        num_columns = len(FrameworkManager.all_X.columns)
+        num_columns += len(FrameworkManager.features.columns)
+
+        FrameworkManager.models[name]['model'] = define_func(num_columns)
 
     return model_decorator
 
