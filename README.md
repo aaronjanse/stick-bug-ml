@@ -5,6 +5,7 @@ A framework to ease the burden of modularizing—and organizing—the code of a 
 With the help of pythonic decorators, the global namespace can be kept clutter-free.
 
 ## Simple Example
+Note: there is also an [example for use with Jupyter Notebooks](demo.ipynb)
 
 First, import this library:
 
