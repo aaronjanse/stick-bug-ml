@@ -31,16 +31,10 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
 
         FrameworkManager.features = pd.DataFrame(index=X.index.copy())
 
-        # Divide up the dataset
-        X_train_valid, X_test, y_train_valid, y_test = train_test_split(X, y, test_size=test_amnt, random_state=137)
+        _split_dataset()
 
-        X_train, X_valid, y_train, y_valid = train_test_split(X_train_valid, y_train_valid, test_size=valid_amnt/(1-test_amnt), random_state=137)
 
-        FrameworkManager.train['X'] = X_train
-        FrameworkManager.train['y'] = y_train
 
-        FrameworkManager.validation['X'] = X_valid
-        FrameworkManager.validation['y'] = y_valid
 
         FrameworkManager.test['X'] = X_test
         FrameworkManager.test['y'] = y_test
@@ -104,3 +98,23 @@ def evaluate(model_name):
 
     # Calculate log_loss score
     return sklearn.metrics.log_loss(list(test_data['y']), predictions)
+
+def _split_dataset():
+    X = FrameworkManager.all_X
+    y = FrameworkManager.all_y
+
+    _, valid_amnt, test_amnt = FrameworkManager.train_valid_test_splits
+
+    # Divide up the dataset
+    X_train_valid, X_test, y_train_valid, y_test = train_test_split(X, y, test_size=test_amnt, random_state=137)
+
+    X_train, X_valid, y_train, y_valid = train_test_split(X_train_valid, y_train_valid, test_size=valid_amnt/(1-test_amnt), random_state=137)
+
+    FrameworkManager.train['X'] = X_train
+    FrameworkManager.train['y'] = y_train
+
+    FrameworkManager.validation['X'] = X_valid
+    FrameworkManager.validation['y'] = y_valid
+
+    FrameworkManager.test['X'] = X_test
+    FrameworkManager.test['y'] = y_test
