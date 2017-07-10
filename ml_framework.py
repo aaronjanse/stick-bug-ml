@@ -56,6 +56,8 @@ def feature(name):
 
         FrameworkManager.features = FrameworkManager.features.join(feature_output)
 
+        return feature_output
+
     return feature_decorator
 
 def model(name):

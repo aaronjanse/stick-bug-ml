@@ -59,13 +59,16 @@ from sklearn import decomposition
 import numpy as np
 
 @feature('pca')
-def get_pca(X):
+def pca(X):
     pca = decomposition.PCA(n_components=3)
     pca.fit(X)
     pca_out = pca.transform(X)
 
     pca_out = np.transpose(pca_out, (1, 0))
     return {'pca_0': pca_out[0], 'pca_1': pca_out[1], 'pca_2': pca_out[2]}
+
+# let's preview
+pca.head() # once again, the function's name becomes a variable holding its output
 
 # you can add more features, btw
 ```
