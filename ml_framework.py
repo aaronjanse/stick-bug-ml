@@ -90,7 +90,7 @@ def train(model_name, params):
 
     FrameworkManager.models[model_name]['model'] = model['train'](model['model'], params, train_data, validation_data)
 
-def evaluate(model_name):
+def evaluate(model_name, all_classes=None):
     _, _, test_amnt = FrameworkManager.train_valid_test_splits
 
     # Add in features
@@ -102,8 +102,13 @@ def evaluate(model_name):
     model = FrameworkManager.models[model_name]
     predictions = model['predict'](model['model'], test_data['X'])
 
+    if all_classes is None:
+        labels_arg = {}
+    else:
+        labels_arg = {'labels': all_classes}
+
     # Calculate log_loss score
-    return sklearn.metrics.log_loss(list(test_data['y']), predictions)
+    return sklearn.metrics.log_loss(list(test_data['y']), predictions, **labels_arg)
 
 def _split_dataset():
     X = FrameworkManager.all_X
