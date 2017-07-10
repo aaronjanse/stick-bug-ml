@@ -121,3 +121,15 @@ print(logloss_score)
 ```
 
 You can add lots more models and features if so desired.
+
+Since this library is built with reality in mind, you can easily get predictions for new/real-life data:
+
+```python
+raw_X = pd.read_csv('2018_titanic_manifesto.csv') # It will probably sink, but we don't know who will survive
+processed_X = ml_framework.process(raw_X) # Process the data
+del raw_X
+
+y = ml_framework.predict('xgboost', processed_X) # Make predictions
+
+print(y)
+```

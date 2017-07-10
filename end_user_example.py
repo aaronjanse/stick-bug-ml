@@ -67,3 +67,11 @@ def nn_model():
         return model.predict(X)
 
     return define, train, predict
+# This is where never-before-seen data can be put through the syste to generate predictions
+raw_X = pd.read_csv('real_life_data.csv')
+processed_X = ml_framework.process(raw_X) # Process the data
+del raw_X
+
+y = ml_framework.predict('xgboost', processed_X) # Make predictions!
+
+print(y)

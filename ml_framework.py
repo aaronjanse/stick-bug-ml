@@ -13,6 +13,8 @@ class FrameworkManager(Singleton):
     features = None
     train_valid_test_splits = None
     models = {}
+    preprocess_func = None
+    feature_funcs = []
 
 # Decorators
 def dataset(train_valid_test=(0.6, 0.2, 0.2)):
@@ -38,6 +40,7 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
     return dataset_decorator
 
 def preprocess(func):
+    FrameworkManager.preprocess_func = func
 
     X = func(FrameworkManager.all_X)
 
@@ -51,6 +54,8 @@ def preprocess(func):
 
 def feature(name):
     def feature_decorator(func):
+        FrameworkManager.feature_funcs.append(func)
+
         # The function is explicitly called with the keyword argument for end-user consistancy (note: is this a good thing? yes? no?)
         feature_output = pd.DataFrame(func(X=FrameworkManager.all_X.copy()), index=FrameworkManager.features.index)
 
@@ -114,6 +119,23 @@ def evaluate(model_name, all_classes=None):
 
     # Calculate log_loss score
     return sklearn.metrics.log_loss(list(test_data['y']), predictions, **labels_arg)
+
+# Used for applying preprocessing and adding features to data not in the training dataset (never-before-seen data)
+def process(raw_data):
+    X = FrameworkManager.preprocess_func(raw_data)
+
+    features = pd.DataFrame(index=X.index.copy())
+    for func in FrameworkManager.feature_funcs:
+        feature_output = pd.DataFrame(func(X=X.copy()), index=features.index)
+        features = features.join(feature_output)
+
+    return pd.concat([X, features], axis=1) # join preprocessed X with its features
+
+def predict(model_name, processed_X):
+    model = FrameworkManager.models[model_name]
+    predictions = model['predict'](model['model'], processed_X)
+
+    return predictions
 
 def _split_dataset():
     X = FrameworkManager.all_X
