@@ -67,6 +67,12 @@ def nn_model():
         return model.predict(X)
 
     return define, train, predict
+
+ml_framework.train('nn', {
+    'depth': 7,
+    'eta': 2.73
+})
+
 # This is where never-before-seen data can be put through the syste to generate predictions
 raw_X = pd.read_csv('real_life_data.csv')
 processed_X = ml_framework.process(raw_X) # Process the data
