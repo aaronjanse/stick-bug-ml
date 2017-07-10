@@ -39,6 +39,8 @@ def my_dataset():
     X = titanic_dataset.drop('survived', axis=1)
     y = titanic_dataset['survived']
     return X, y
+
+print(my_dataset.head()) # the function's name is now a var that holds the evaluated output `X`
 ```
 
 Generate some features:
