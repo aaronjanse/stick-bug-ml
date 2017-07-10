@@ -33,7 +33,7 @@ ml_framework.include_builtin_features('tsne', 'pca')
 def xgboost_model():
     import xgboost as xgb
 
-    def define(params):
+    def define(num_columns):
         return model
 
     def train(model, params, train, valid):
@@ -56,7 +56,7 @@ ml_framework.train('xgboost', {
 # and keep on defining models
 @model('nn')
 def nn_model():
-    def define():
+    def define(num_columns):
         pass
 
     def train(model, params, train, valid):
