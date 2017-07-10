@@ -11,7 +11,7 @@ First, import this library:
 
 ```python
 import ml_framework
-from ml_framework import dataset, feature, model
+from ml_framework.decorators import dataset, feature, model
 ```
 
 Load your dataset:
