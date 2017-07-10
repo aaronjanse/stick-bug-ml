@@ -44,7 +44,7 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
 def feature(name):
     def feature_decorator(func):
         # The function is explicitly called with the keyword argument for end-user consistancy (note: is this a good thing? yes? no?)
-        feature_output = pd.DataFrame(func(X=FrameworkManager.all_X), index=FrameworkManager.features.index)
+        feature_output = pd.DataFrame(func(X=FrameworkManager.all_X.copy()), index=FrameworkManager.features.index)
 
         FrameworkManager.features = FrameworkManager.features.join(feature_output)
 
@@ -74,8 +74,8 @@ def train(model_name, params):
     train_X = pd.concat([FrameworkManager.train['X'], f_train], axis=1)
     validation_X = pd.concat([FrameworkManager.validation['X'], f_valid], axis=1)
 
-    train_data = {'X': train_X, 'y': FrameworkManager.train['y']}
-    validation_data = {'X': validation_X, 'y': FrameworkManager.validation['y']}
+    train_data = {'X': train_X.copy(), 'y': FrameworkManager.train['y'].copy()}
+    validation_data = {'X': validation_X.copy(), 'y': FrameworkManager.validation['y'].copy()}
 
     # Train model
     model = FrameworkManager.models[model_name]
@@ -88,7 +88,7 @@ def evaluate(model_name):
     # Add in features
     _, f_test = train_test_split(FrameworkManager.features, test_size=test_amnt, random_state=137)
     test_X = pd.concat([FrameworkManager.test['X'], f_test], axis=1)
-    test_data = {'X': test_X, 'y': FrameworkManager.test['y']}
+    test_data = {'X': test_X.copy(), 'y': FrameworkManager.test['y'].copy()}
 
     # Make predictions
     model = FrameworkManager.models[model_name]
