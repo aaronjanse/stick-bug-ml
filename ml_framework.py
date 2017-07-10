@@ -35,14 +35,11 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
 
         return X
 
-
-
-        FrameworkManager.test['X'] = X_test
-        FrameworkManager.test['y'] = y_test
-
-        return X
-
     return dataset_decorator
+
+
+
+
 
 def feature(name):
     def feature_decorator(func):
