@@ -37,9 +37,17 @@ def dataset(train_valid_test=(0.6, 0.2, 0.2)):
 
     return dataset_decorator
 
+def preprocess(func):
 
+    X = func(FrameworkManager.all_X)
 
+    FrameworkManager.all_X = X
 
+    FrameworkManager.features = pd.DataFrame(index=X.index.copy())
+
+    _split_dataset() # resplit dataset
+
+    return X
 
 def feature(name):
     def feature_decorator(func):

@@ -26,21 +26,30 @@ def my_dataset():
     # Drop NaN rows for simplicity
     titanic_dataset.dropna(inplace=True)
 
-    # Encode categorical columns
-    categorical_column_names = ['sex', 'embarked', 'class',
-                                'who', 'adult_male', 'deck',
-                                'embark_town', 'alive', 'alone']
-
-    titanic_dataset = pd.get_dummies(titanic_dataset,
-                                     columns=categorical_column_names,
-                                     prefix=categorical_column_names)
-
     # Extract X and y
     X = titanic_dataset.drop('survived', axis=1)
     y = titanic_dataset['survived']
     return X, y
 
 print(my_dataset.head()) # the function's name is now a var that holds the evaluated output `X`
+```
+
+(Optionally) do some pre-processing:
+
+```python
+@preprocess
+def preprocess_data(X):
+    # Encode categorical columns
+    categorical_column_names = [
+            'sex', 'embarked', 'class',
+            'who', 'adult_male', 'deck',
+            'embark_town', 'alive', 'alone']
+
+    X = pd.get_dummies(X,
+                       columns=categorical_column_names,
+                       prefix=categorical_column_names)
+
+    return X
 ```
 
 Generate some features:

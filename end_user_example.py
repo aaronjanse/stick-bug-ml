@@ -10,6 +10,11 @@ def get_dataset():
     y = data['y']
     return X, y
 
+@preprocess
+def preprocess_data(X):
+    # Do some preprocessing here
+    return new_X
+
 # Extract some features. The ground truth is kept locked away for this
 @feature('word_share')
 def get_word_share(X):
