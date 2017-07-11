@@ -66,7 +66,7 @@ def pca_feature(X):
     pca_out = pca.transform(X)
 
     pca_out = np.transpose(pca_out, (1, 0))
-    return {'pca_0': pca_out[0], 'pca_1': pca_out[1], 'pca_2': pca_out[2]}
+    return pd.DataFrame(pca_out)
 
 # let's preview
 pca_feature.head() # once again, the function's name becomes a variable holding its output

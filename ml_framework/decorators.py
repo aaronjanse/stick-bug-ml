@@ -41,7 +41,9 @@ def feature(name):
         FrameworkManager.feature_funcs.append(func)
 
         # The function is explicitly called with the keyword argument for end-user consistancy (note: is this a good thing? yes? no?)
-        feature_output = pd.DataFrame(func(X=FrameworkManager.all_X.copy()), index=FrameworkManager.features.index)
+        feature_output = func(X=FrameworkManager.all_X.copy())
+
+        feature_output = feature_output.add_prefix(name) # add prefix
 
         FrameworkManager.features = FrameworkManager.features.join(feature_output)
 
