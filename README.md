@@ -21,7 +21,7 @@ import seaborn.apionly as sns
 import pandas as pd
 
 @dataset(train_valid_test=(0.6, 0.2, 0.2)) # define your train/test/validation data splits
-def my_dataset():
+def raw_dataset():
     titanic_dataset = sns.load_dataset('titanic')
 
     # Drop NaN rows for simplicity
@@ -32,14 +32,14 @@ def my_dataset():
     y = titanic_dataset['survived']
     return X, y
 
-print(my_dataset.head()) # the function's name is now a var that holds the evaluated output `X`
+print(raw_dataset.head()) # yes, this does work! raw_dataset is now a pandas DataFrame
 ```
 
 (Optionally) do some pre-processing:
 
 ```python
 @preprocess
-def preprocess_data(X):
+def preprocessed_dataset(X):
     # Encode categorical columns
     categorical_column_names = [
             'sex', 'embarked', 'class',
@@ -51,6 +51,8 @@ def preprocess_data(X):
                        prefix=categorical_column_names)
 
     return X
+
+print(preprocessed_dataset.head()) # See the first code block for explaination
 ```
 
 Generate some features:
@@ -69,7 +71,7 @@ def pca_feature(X):
     return pd.DataFrame(pca_out)
 
 # let's preview
-pca_feature.head() # once again, the function's name becomes a variable holding its output
+print(pca_feature.head()) # See the first code block for explaination
 
 # you can add more features, btw
 ```
@@ -81,7 +83,7 @@ import xgboost as xgb
 
 @model('xgboost')
 def xgboost_model():
-    def define():
+    def define(num_columns):
         return None # xgboost models aren't pre-defined
 
 
