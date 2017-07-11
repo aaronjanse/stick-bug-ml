@@ -4,15 +4,15 @@ This documentation covers each of the features in a typical workflow in order.
 First, import the library:
 
 ```python
-import ml_framework
-from ml_framework.decorators import dataset, feature, model
+import stickbugml
+from stickbugml.decorators import dataset, feature, model
 ```
 
 You probably just want to copy and paste those exact import statements into your project, as they import the user facing side of the library.
 
 In case you were wondering, the structure of the module looks like this (the `@` symbol is just decorative):
 ```
-ml_framework
+stickbugml
  | train(model_name, params)
  | evaluate(model_name, all_classes=None)
  | process(raw_data)
@@ -35,7 +35,7 @@ The `train_valid_test` argument specifies how you would like to split up the tra
 
 Training dataset is used with ml models to train.
 Validation data is used while tuning paramaters to make sure you aren't overfitting.
-Testing data is never given to the models during training and its `y` values are only accessed by the framework when a call to `ml_framework.evaluate` is made.
+Testing data is never given to the models during training and its `y` values are only accessed by the framework when a call to `stickbugml.evaluate` is made.
 
 In all, it should look like this:
 
@@ -177,7 +177,7 @@ def xgboost_model():
 Now you can train your model, trying out different parameters if your want:
 
 ```python
-ml_framework.train('xgboost', {
+stickbugml.train('xgboost', {
     'max_depth': 7,
     'eta': 0.01
 })
@@ -190,7 +190,7 @@ The library keeps the test data's ground truth values locked away so your models
 After you train your model, have the framework evaluate it for you:
 
 ```python
-logloss_score = ml_framework.evaluate('xgboost')
+logloss_score = stickbugml.evaluate('xgboost')
 print(logloss_score)
 ```
 
@@ -202,10 +202,10 @@ Since this library is built with reality in mind, you can easily get predictions
 
 ```python
 raw_X = pd.read_csv('2018_titanic_manifesto.csv') # It will probably sink, but we don't know who will survive
-processed_X = ml_framework.process(raw_X) # Process the data
+processed_X = stickbugml.process(raw_X) # Process the data
 del raw_X
 
-y = ml_framework.predict('xgboost', processed_X) # Make predictions
+y = stickbugml.predict('xgboost', processed_X) # Make predictions
 
 print(y)
 ```

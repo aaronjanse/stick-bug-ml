@@ -1,4 +1,4 @@
-# ML Framework
+# stick-bug-ml
 
 A framework to ease the burden of organizing code of a supervised machine learning system.
 
@@ -18,8 +18,8 @@ Note: there is also a great [example for use in Jupyter Notebooks](demo.ipynb)
 First, import this library:
 
 ```python
-import ml_framework
-from ml_framework.decorators import dataset, feature, model
+import stickbugml
+from stickbugml.decorators import dataset, feature, model
 ```
 
 Load your dataset:
@@ -117,7 +117,7 @@ def xgboost_model():
 Now you can train your model, trying out different parameters if you want:
 
 ```python
-ml_framework.train('xgboost', {
+stickbugml.train('xgboost', {
     'max_depth': 7,
     'eta': 0.01
 })
@@ -127,7 +127,7 @@ The library keeps the test data's ground truth values locked away so your models
 After you train your model, have the framework evaluate it for you:
 
 ```python
-logloss_score = ml_framework.evaluate('xgboost')
+logloss_score = stickbugml.evaluate('xgboost')
 print(logloss_score)
 ```
 
@@ -137,10 +137,10 @@ Since this library is built with reality in mind, you can easily get predictions
 
 ```python
 raw_X = pd.read_csv('2018_titanic_manifesto.csv') # It will probably sink, but we don't know who will survive
-processed_X = ml_framework.process(raw_X) # Process the data
+processed_X = stickbugml.process(raw_X) # Process the data
 del raw_X # Gotta keep that namespace clean, right?
 
-y = ml_framework.predict('xgboost', processed_X) # Make predictions
+y = stickbugml.predict('xgboost', processed_X) # Make predictions
 
 print(y)
 ```
