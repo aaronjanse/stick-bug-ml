@@ -156,3 +156,8 @@ y = stickbugml.predict('xgboost', processed_X) # Make predictions
 
 print(y)
 ```
+
+## Contributing & Feedback
+If you have any problems, or would like a new feature, submit an Issue.
+
+If you want to help out, feel free to submit a Pull Request.
