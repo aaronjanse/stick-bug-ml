@@ -114,7 +114,7 @@ def xgboost_model():
     return define, train, predict
 ```
 
-Now you can train your model, trying out different parameters if your want:
+Now you can train your model, trying out different parameters if you want:
 
 ```python
 ml_framework.train('xgboost', {
