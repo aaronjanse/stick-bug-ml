@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from singleton import Singleton
+from .singleton import Singleton
 
 class FrameworkManager(Singleton):
     all_X = None
