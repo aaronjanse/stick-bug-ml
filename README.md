@@ -1,11 +1,19 @@
 # ML Framework
 
-A framework to ease the burden of modularizing—and organizing—the code of a machine learning system.
+A framework to ease the burden of organizing code of a supervised machine learning system.
 
-With the help of pythonic decorators, the global namespace can be kept clutter-free.
+It provides decorators that manage data & pass it between common steps in building a machine learning system, such as:
+- loading the dataset
+- preprocessing
+- feature generation
+- model definition
 
-## Simple Example
-Note: there is also an [example for use with Jupyter Notebooks](demo.ipynb)
+While doing this, it keeps the global namespace free of clutter such as that from an endless chain of features and models.
+
+In addition, it makes it easy to put new, real life, data through the exact same process that training data goes through.
+
+## Example
+Note: there is also a great [example for use in Jupyter Notebooks](demo.ipynb)
 
 First, import this library:
 
@@ -130,7 +138,7 @@ Since this library is built with reality in mind, you can easily get predictions
 ```python
 raw_X = pd.read_csv('2018_titanic_manifesto.csv') # It will probably sink, but we don't know who will survive
 processed_X = ml_framework.process(raw_X) # Process the data
-del raw_X
+del raw_X # Gotta keep that namespace clean, right?
 
 y = ml_framework.predict('xgboost', processed_X) # Make predictions
 
