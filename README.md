@@ -143,7 +143,7 @@ logloss_score = stickbugml.evaluate('xgboost')
 print(logloss_score)
 ```
 
-You can add lots more models and features if so desired.
+You can add more models and features if so desired.
 
 Since this library is built with reality in mind, you can easily get predictions for new/real-life data:
 
