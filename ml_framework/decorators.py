@@ -1,7 +1,7 @@
 from ._util import FrameworkManager, _split_dataset
 import pandas as pd
 
-def dataset(train_valid_test=(0.6, 0.2, 0.2)):
+def dataset(train_valid_test):
     train_amnt, valid_amnt, test_amnt = train_valid_test
 
     assert train_amnt + valid_amnt + test_amnt == 1, "the train_valid_test splits should all add up to 1.0"
