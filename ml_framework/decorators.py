@@ -36,7 +36,7 @@ def preprocess(func):
 
     return X
 
-def feature(name):
+def feature(name=''):
     def feature_decorator(func):
         FrameworkManager.feature_funcs.append(func)
 
@@ -48,6 +48,12 @@ def feature(name):
         FrameworkManager.features = FrameworkManager.features.join(feature_output)
 
         return feature_output
+
+    # Optional argument hack (a.k.a. sketchy code)
+    if not isinstance(name, str):
+        func = name # The `name` arg was actually a function, because this function is being used a a decorator
+        name = '' # Default to ''
+        return feature_decorator(func)
 
     return feature_decorator
 
