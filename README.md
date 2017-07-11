@@ -12,6 +12,18 @@ While doing this, it keeps the global namespace free of clutter such as that fro
 
 In addition, it makes it easy to put new, real life, data through the exact same process that training data goes through.
 
+## Installation
+Install simply via `pip` (Python 3):
+
+```bash
+$ pip install stickbugml
+```
+Dependencies:
+- Python 3
+- sklearn
+- pandas
+- numpy
+
 ## Example
 Note: there is also a great [example for use in Jupyter Notebooks](demo.ipynb)
 
