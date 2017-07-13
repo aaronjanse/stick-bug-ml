@@ -25,7 +25,7 @@ Dependencies:
 - numpy
 
 ## Documenration
-The documentation can be found at [docs/README.md](https://github.com/aaronduino/stick-bug-ml/docs/README.md)
+The documentation can be found at [docs/README.md](github.com/aaronduino/stick-bug-ml/docs/README.md)
 
 ## Example
 Note: there is also a great [example for use in Jupyter Notebooks](demo.ipynb)
