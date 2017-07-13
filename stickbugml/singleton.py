@@ -1,3 +1,6 @@
+__copyright__ = 'Copyright 2017 Aaron Janse'
+__license__ = 'Apache 2.0'
+
 class Singleton(object):
   _instances = {}
   def __new__(class_, *args, **kwargs):

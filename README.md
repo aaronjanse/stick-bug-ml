@@ -161,3 +161,6 @@ print(y)
 If you have any problems, or would like a new feature, submit an Issue.
 
 If you want to help out, feel free to submit a Pull Request.
+
+## License
+This project uses the Apache 2.0 License

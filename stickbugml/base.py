@@ -1,3 +1,6 @@
+__copyright__ = 'Copyright 2017 Aaron Janse'
+__license__ = 'Apache 2.0'
+
 from sklearn.model_selection import train_test_split
 import sklearn.metrics
 import pandas as pd
